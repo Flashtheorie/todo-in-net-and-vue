@@ -1,50 +1,75 @@
-@{
-  ViewData["Title"] = "Mylist";
-}
+@page
+@model MyModel
 
-<link href="~/css/tailwind.css" rel="stylesheet" />
+<!-- Include the Vue.js library -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-<div id="app" class="container mx-auto mt-4">
-  <div class="flex justify-center items-center">
-    <input type="text" class="border px-2 py-1" v-model="newItem" />
-    <button class="btn btn-blue ml-2" @click="addItem()">Add</button>
+<!-- Add a Vue.js template -->
+<div id="my-template">
+
+  <div class="bg-slate-800 h-screen flex items-center justify-center">
+    <div class="bg-white rounded shadow-md p-4 text-center">
+      <h3 class="text-lg font-bold mb-4 text-slate-400">Todo List</h3>
+      <ul class="list-inside list-disc">
+        <li class="mb-2" v-for="(item, index) in items" :key="index">
+          <label class="flex items-center">
+            <input type="checkbox" class="form-checkbox mr-2" v-model="item.completed" />
+            <span :class="{ 'text-gray-400': item.completed, 'text-gray-700': !item.completed }">{{ item.text }}</span>
+          </label>
+        </li>
+      </ul>
+      <div class="mt-4">
+        <input type="text" class="form-input" v-model="newItemText" />
+        <button class="btn btn-primary" v-on:click="addItem">Add Item</button>
+      </div>
+    </div>
   </div>
-  <ul class="mt-4">
-    <li v-for="(item, index) in items" :key="index" class="list-item justify-between items-center">
-      {{ item }}
-      <button class="btn btn-red mr-2" @click="deleteItem(index)">Delete</button>
-    </li>
-  </ul>
-</div>
 
-<script src="~/node_modules/vue/dist/vue.js"></script>
-<script src="~/node_modules/sortablejs/Sortable.js"></script>
 
+
+  
+
+</div> <!-- template -->
+
+<!-- Add a Vue.js script block -->
 <script>
-  new Vue({
-    el: '#app',
-    data: {
+export default {
+  data() {
+    return {
       newItem: '',
       items: [],
+    }
+  },
+  methods: {
+    addItem() {
+      this.items.push(this.newItem)
+      this.newItem = ''
     },
-    mounted() {
-      // Make the list items rearrangeable
-      Sortable.create(this.$refs.list, {
-        animation: 150,
-      });
+    moveUp(index) {
+      if (index > 0) {
+        const temp = this.items[index]
+        this.items.splice(index, 1)
+        this.items.splice(index - 1, 0, temp)
+      }
     },
-    methods: {
-      addItem() {
-        // Add the new item to the list
-        this.items.push(this.newItem);
-
-        // Clear the input field
-        this.newItem = '';
-      },
-      deleteItem(index) {
-        // Remove the item from the list
-        this.items.splice(index, 1);
-      },
+    moveDown(index) {
+      if (index < this.items.length - 1) {
+        const temp = this.items[index]
+        this.items.splice(index, 1)
+        this.items.splice(index + 1, 0, temp)
+      }
     },
-  });
+    removeItem(index) {
+      this.items.splice(index, 1)
+    },
+  },
+}
 </script>
+
+@functions {
+  public class MyModel
+  {
+    // model code here
+  }
+}
