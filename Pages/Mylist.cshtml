@@ -4,30 +4,63 @@
 
 
 <div id="my-template">
+
+<button class="m-8 bg-gray-300 rounded-full p-4 text-4xl font-bold text-gray-800 hover:bg-gray-400" >
+      ←
+</button>
+
+
+
   <div class="flex justify-center mt-8">
     <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-4">
       <h1 class="text-3xl font-bold text-center mb-4">Things To Do</h1>
-<ul class="flex-col flex">
+      <hr>
+<ul class="flex-col flex mt-12">
   <li
     v-for="(item, index) in todoList"
     :key="index"
-    class="cursor-pointer inline-block rounded-full bg-gray-200 py-1 px-3 mr-2 mb-2 relative hover:bg-red-500"
-    v-on:click="removeItem(index)"
+    class="cursor-pointer inline-block rounded-full bg-gray-200 py-1 px-3 mr-2 mb-2 relative"
   >
-    {{ item }}
+    <div class="flex items-center justify-between w-full">
+      <div class="text-xl font-extrabold">{{ item }}</div>
+      <div class="flex items-center gap-2">
+        <button
+          v-if="index > 0"
+          class="p-2 rounded-full bg-gray-300 hover:bg-gray-400"
+          v-on:click="moveItemUp(index)"
+        >
+          ⬆
+        </button>
+        <button
+          v-if="index < todoList.length - 1"
+          class="p-2 rounded-full bg-gray-300 hover:bg-gray-400"
+          v-on:click="moveItemDown(index)"
+        >
+          ⬇
+        </button>
+        <button
+          type="button"
+          class="p-2 rounded-full bg-gray-300 hover:bg-red-500"
+          v-on:click="removeItem(index)"
+        >
+          delete
+        </button>
+      </div>
+    </div>
   </li>
 </ul>
+
 
       <form class="mb-4"v-on:submit.prevent="addItem">
         <input
           v-model="newItem"
           type="text"
-          class="block w-full p-2 rounded-lg mb-2 bg-gray-800 text-gray-100"
+          class="my-6 block w-full p-2 rounded-lg mb-2 bg-gray-200 text-gray-600"
           placeholder="Add a new to-do item"
         />
         <button
           type="submit"
-          class="w-full p-2 rounded-lg bg-blue-500 text-white font-bold"
+          class="mt-6 w-full p-2 rounded-lg bg-blue-500 text-white font-bold text-2xl"
         >
           Add
         </button>
@@ -40,8 +73,9 @@
   new Vue({
     el: '#my-template',
     data: {
-      todoList: ['To-do item 1', 'To-do item 2', 'To-do item 3'],
-      newItem: ''
+      todoList: ['Visit Copenhagen', 'Buy bread', 'Pet my cats'],
+      newItem: '',
+      
     },
     methods: {
       addItem() {
@@ -53,7 +87,17 @@
       removeItem(index) {
         // Remove the item from the list
         this.todoList.splice(index, 1)
-      }
+      },
+       moveItemUp(index) {
+    if (index > 0) {
+      this.todoList.splice(index - 1, 0, this.todoList.splice(index, 1)[0])
+    }
+  },
+  moveItemDown(index) {
+    if (index < this.todoList.length - 1) {
+      this.todoList.splice(index + 1, 0, this.todoList.splice(index, 1)[0])
+    }
+  }
     }
   })
 </script>
