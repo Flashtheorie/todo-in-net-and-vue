@@ -1,70 +1,61 @@
 @page
 @model MyModel
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-<!-- Include the Vue.js library -->
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-<!-- Add a Vue.js template -->
 <div id="my-template">
+  <div class="flex justify-center mt-8">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-4">
+      <h1 class="text-3xl font-bold text-center mb-4">Things To Do</h1>
+<ul class="flex-col flex">
+  <li
+    v-for="(item, index) in todoList"
+    :key="index"
+    class="cursor-pointer inline-block rounded-full bg-gray-200 py-1 px-3 mr-2 mb-2 relative hover:bg-red-500"
+    v-on:click="removeItem(index)"
+  >
+    {{ item }}
+  </li>
+</ul>
 
-  <div class="bg-slate-800 h-screen flex items-center justify-center">
-    <div class="bg-white rounded shadow-md p-4 text-center">
-      <h3 class="text-lg font-bold mb-4 text-slate-400">Todo List</h3>
-      <ul class="list-inside list-disc">
-        <li class="mb-2" v-for="(item, index) in items" :key="index">
-          <label class="flex items-center">
-            <input type="checkbox" class="form-checkbox mr-2" v-model="item.completed" />
-            <span :class="{ 'text-gray-400': item.completed, 'text-gray-700': !item.completed }">{{ item }}</span>
-          </label>
-        </li>
-      </ul>
-      <div class="mt-4">
-        <input type="text" class="form-input" v-model="newItemText" />
-        <button class="btn btn-primary" v-on:click="addItem">Add Item</button>
-      </div>
+      <form class="mb-4"v-on:submit.prevent="addItem">
+        <input
+          v-model="newItem"
+          type="text"
+          class="block w-full p-2 rounded-lg mb-2 bg-gray-800 text-gray-100"
+          placeholder="Add a new to-do item"
+        />
+        <button
+          type="submit"
+          class="w-full p-2 rounded-lg bg-blue-500 text-white font-bold"
+        >
+          Add
+        </button>
+      </form>
     </div>
   </div>
+</div>
 
-
-
-  
-
-</div> <!-- template -->
-
-<!-- Add a Vue.js script block -->
 <script>
-export default {
-  data() {
-    return {
-      newItem: '',
-      items: [],
+  new Vue({
+    el: '#my-template',
+    data: {
+      todoList: ['To-do item 1', 'To-do item 2', 'To-do item 3'],
+      newItem: ''
+    },
+    methods: {
+      addItem() {
+        // Add the new item to the list
+        this.todoList.push(this.newItem)
+        // Clear the input field
+        this.newItem = ''
+      },
+      removeItem(index) {
+        // Remove the item from the list
+        this.todoList.splice(index, 1)
+      }
     }
-  },
-  methods: {
-    addItem() {
-      this.items.push(this.newItem)
-      this.newItem = ''
-    },
-    moveUp(index) {
-      if (index > 0) {
-        const temp = this.items[index]
-        this.items.splice(index, 1)
-        this.items.splice(index - 1, 0, temp)
-      }
-    },
-    moveDown(index) {
-      if (index < this.items.length - 1) {
-        const temp = this.items[index]
-        this.items.splice(index, 1)
-        this.items.splice(index + 1, 0, temp)
-      }
-    },
-    removeItem(index) {
-      this.items.splice(index, 1)
-    },
-  },
-}
+  })
 </script>
 
 @functions {
