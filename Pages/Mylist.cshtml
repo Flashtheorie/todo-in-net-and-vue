@@ -15,7 +15,7 @@
         <li class="mb-2" v-for="(item, index) in items" :key="index">
           <label class="flex items-center">
             <input type="checkbox" class="form-checkbox mr-2" v-model="item.completed" />
-            <span :class="{ 'text-gray-400': item.completed, 'text-gray-700': !item.completed }">{{ item.text }}</span>
+            <span :class="{ 'text-gray-400': item.completed, 'text-gray-700': !item.completed }">{{ item }}</span>
           </label>
         </li>
       </ul>
