@@ -5,7 +5,9 @@
 
 <div id="my-template">
 
-<button class="m-8 bg-gray-300 rounded-full p-4 text-4xl font-bold text-gray-800 hover:bg-gray-400" >
+<button class="m-8 bg-gray-300 rounded-full p-4 text-4xl font-bold text-gray-800 hover:bg-gray-400" 
+v-on:click="goHome">
+
       ←
 </button>
 
@@ -15,6 +17,16 @@
     <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-4">
       <h1 class="text-3xl font-bold text-center mb-4">Things To Do</h1>
       <hr>
+<template v-if="todoList.length === 0">
+  <div class="text-center mt-8">
+    <h2 class="text-xl font-bold text-gray-400 text-muted">You don't have anything to do... yet.</h2>
+  </div>
+</template>
+
+
+
+
+
 <ul class="flex-col flex mt-12">
   <li
     v-for="(item, index) in todoList"
@@ -97,6 +109,11 @@
     if (index < this.todoList.length - 1) {
       this.todoList.splice(index + 1, 0, this.todoList.splice(index, 1)[0])
     }
+  },
+
+
+  goHome(){
+    window.location.href = '/';
   }
     }
   })
