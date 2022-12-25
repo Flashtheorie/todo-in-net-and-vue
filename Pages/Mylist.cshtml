@@ -1,0 +1,18 @@
+@page
+@model MyModel
+
+<h1>My Page</h1>
+
+<ul>
+    @foreach (var item in Model.Items)
+    {
+        <li>@item</li>
+    }
+</ul>
+
+@functions {
+    public class MyModel
+    {
+        public List<string> Items { get; set; }
+    }
+}
