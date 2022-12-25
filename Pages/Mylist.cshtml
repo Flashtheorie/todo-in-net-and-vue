@@ -1,18 +1,50 @@
-@page
-@model MyModel
-
-<h1>My Page</h1>
-
-<ul>
-    @foreach (var item in Model.Items)
-    {
-        <li>@item</li>
-    }
-</ul>
-
-@functions {
-    public class MyModel
-    {
-        public List<string> Items { get; set; }
-    }
+@{
+  ViewData["Title"] = "Mylist";
 }
+
+<link href="~/css/tailwind.css" rel="stylesheet" />
+
+<div id="app" class="container mx-auto mt-4">
+  <div class="flex justify-center items-center">
+    <input type="text" class="border px-2 py-1" v-model="newItem" />
+    <button class="btn btn-blue ml-2" @click="addItem()">Add</button>
+  </div>
+  <ul class="mt-4">
+    <li v-for="(item, index) in items" :key="index" class="list-item justify-between items-center">
+      {{ item }}
+      <button class="btn btn-red mr-2" @click="deleteItem(index)">Delete</button>
+    </li>
+  </ul>
+</div>
+
+<script src="~/node_modules/vue/dist/vue.js"></script>
+<script src="~/node_modules/sortablejs/Sortable.js"></script>
+
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      newItem: '',
+      items: [],
+    },
+    mounted() {
+      // Make the list items rearrangeable
+      Sortable.create(this.$refs.list, {
+        animation: 150,
+      });
+    },
+    methods: {
+      addItem() {
+        // Add the new item to the list
+        this.items.push(this.newItem);
+
+        // Clear the input field
+        this.newItem = '';
+      },
+      deleteItem(index) {
+        // Remove the item from the list
+        this.items.splice(index, 1);
+      },
+    },
+  });
+</script>
