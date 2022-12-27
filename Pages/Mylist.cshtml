@@ -91,10 +91,12 @@ v-on:click="goHome">
     },
     methods: {
       addItem() {
+        if (this.newItem != '') {
         // Add the new item to the list
         this.todoList.push(this.newItem)
         // Clear the input field
         this.newItem = ''
+        }
       },
       removeItem(index) {
         // Remove the item from the list
