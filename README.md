@@ -17,3 +17,8 @@ This is a simple todo list application built with Vue.js and .NET. It allows use
 ## Assignment
 
 This project was completed as an assignment for a job application.
+
+
+## Screenshots
+
+![App Screenshot](https://i.imgur.com/QtZKuO2.png)
